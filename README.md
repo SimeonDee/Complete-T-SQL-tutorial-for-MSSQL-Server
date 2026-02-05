@@ -19,4 +19,5 @@ This repository contains my Complete (Beginner-to-Advanced) SQL source codes for
 - Download and install latest version of SQL Server Management Studio 22 (SSMS) from [Microsoft Official page](https://learn.microsoft.com/en-us/ssms/install/install)
 
 ## Course Outline
+
 - [View](DOCS/Training_outline.md) OR [Download](DOCS/TRAINING_OUTLINES_T-SQL.pdf) the training course outline
