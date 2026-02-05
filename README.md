@@ -14,4 +14,4 @@ This repository contains my Complete (Beginner-to-Advanced) SQL source codes for
 - Focuses on the use of T-SQL (a Microsoft variant of SQL) for interacting with MSSQL Server DB
 
 ## Course Outline
-- [View/Download Outline here](TRAINING_OUTLINES_T-SQL.pdf)
+- [View](DOCS/Training_outline.md) OR [Download](DOCS/TRAINING_OUTLINES_T-SQL.pdf) the training course outline
