@@ -12,3 +12,6 @@ This repository contains my Complete (Beginner-to-Advanced) SQL source codes for
 - Beginner-friendly, yet all-encompassing for even advanced users.
 - From Beginner to Advanced level
 - Focuses on the use of T-SQL (a Microsoft variant of SQL) for interacting with MSSQL Server DB
+
+## Course Outline
+- [View/Download Outline here](TRAINING_OUTLINES_T-SQL.pdf)
