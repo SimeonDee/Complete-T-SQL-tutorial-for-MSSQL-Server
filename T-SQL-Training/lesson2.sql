@@ -31,7 +31,7 @@
 
 /*
 ------------------------------------- START ----------------------------
-== 2. SQL Server Server (T-SQL) Data Structure, (Types and Constraints) ==
+== 2. SQL Server (T-SQL) Data Structure, (Types and Constraints) ==
 ------------------------------------------------------------------------
 
 -- All -TSQL Data Types: https://docs.microsoft.com/en-us/sql/t-sql/data-types/data-types-transact-sql?view=sql-server-ver16
