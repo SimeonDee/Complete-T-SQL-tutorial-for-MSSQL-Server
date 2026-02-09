@@ -177,12 +177,28 @@ WHERE condition
 ORDER BY column1, column2, ...;
 */
 
+-- Example of a basic SELECT statement with column selection
+SELECT
+    EmployeeID,
+    FirstName,
+    LastName,
+    Salary
+FROM Employees;
+
+-- Example of a basic SELECT statement with column aliasing
+SELECT
+    EmployeeID AS EmpID,
+    FirstName AS FName,
+    LastName AS Surname,
+    Salary AS MonthlySalary
+FROM Employees;
+
 -- Example of a basic SELECT statement with column selection and aliasing
 SELECT
     EmployeeID AS EmpID,
     FirstName, -- no aliasing for this column
+    LastName AS Surname, -- Alias with AS keyword
     Gender AS Sex, -- Alias with AS keyword
-    LastName, -- Alias without AS keyword
     Salary AS MonthlySalary
 FROM Employees;
 
@@ -190,11 +206,25 @@ FROM Employees;
 SELECT DISTINCT DepartmentID
 FROM Employees;
 
+-- (e.g. Returns unique combinations of Gender and DepartmentID from Employees.)
+SELECT DISTINCT Gender, DepartmentID
+FROM Employees;
+
+-- Selecting specific columns 
+SELECT FirstName, LastName, Salary
+FROM Employees;
+
 -- Selecting all columns from the Employees table
+/* Note: 
+    Using SELECT * is generally not recommended in production code 
+    as it can lead to performance issues and may return unnecessary 
+    data. It is better to specify only the columns you need.
+*/
 SELECT *
 FROM Employees;
 
--- Selecting specific columns and performing basic calculations (e.g., calculating annual salary)
+
+-- performing basic calculations (e.g., calculating annual salary)
 SELECT
     FirstName,
     LastName,
@@ -203,6 +233,25 @@ SELECT
     Salary * 0.10 AS Bonus,
     Salary + (Salary * 0.10) AS TotalCompensation
 FROM Employees;
+
+-------------------------------------
+-- Filtering Data with WHERE Clause
+-------------------------------------
+
+-- Syntax of a SELECT statement with a WHERE clause
+/*
+SELECT column1, column2, ...
+FROM table_name
+WHERE condition;
+*/
+
+-- Operators used in the WHERE clause:
+---------------------------------------
+-- comparison operators: =, <>, >, <, >=, <=
+-- logical operators: AND, OR, NOT
+-- range operators: BETWEEN, IN, NOT IN, NOT BETWEEN
+-- string pattern matching operator: LIKE
+
 
 -- Example of filtering data using the WHERE clause with comparison and logical operators
 SELECT
@@ -220,6 +269,13 @@ SELECT
 FROM Employees
 WHERE HireDate BETWEEN '2010-01-01' AND '2020-12-31';
 
+SELECT
+    FirstName,
+    LastName,
+    Salary
+FROM Employees
+WHERE Salary NOT BETWEEN 50000 AND 70000;
+
 -- Example of using the IN operator to filter data based on a list of values
 SELECT
     FirstName,
@@ -228,7 +284,19 @@ SELECT
 FROM Employees
 WHERE DepartmentID IN (1, 3, 5);
 
+SELECT
+    FirstName,
+    LastName,
+    DepartmentID
+FROM Employees
+WHERE DepartmentID NOT IN (1, 3, 5);
+
 -- Example of using the LIKE operator to filter data based on a pattern
+/* NOTE:
+    '%' is a wildcard that matches any sequence of characters, 
+    '_' is a wildcard that matches a single character
+*/
+
 SELECT
     FirstName,
     LastName,
@@ -236,23 +304,79 @@ SELECT
 FROM Employees
 WHERE PhoneNumber LIKE '123-%';
 
+SELECT
+    FirstName,
+    LastName,
+    PhoneNumber
+FROM Employees
+WHERE PhoneNumber NOT LIKE '123-%';
+
+SELECT
+    FirstName,
+    LastName,
+    PhoneNumber
+FROM Employees
+WHERE PhoneNumber LIKE '%-7890';
+
+SELECT
+    FirstName,
+    LastName,
+    PhoneNumber
+FROM Employees
+WHERE PhoneNumber NOT LIKE '%-7890';
+
+SELECT
+    FirstName,
+    LastName,
+    PhoneNumber
+FROM Employees
+WHERE FirstName LIKE 'A%e' AND LastName LIKE '%ad%';
+
+SELECT
+    FirstName,
+    LastName,
+    PhoneNumber
+FROM Employees
+WHERE PhoneNumber LIKE '___-___-____';
+/* Matches phone numbers in the format '123-456-7890' 
+(3 digits, followed by a dash, followed by 3 digits, 
+followed by a dash, followed by 4 digits) */
+
+
+-- Matching a valid email address format
+/* 
+    Matches email addresses that have at least one character before the '@' symbol,
+    at least two characters after the '@' symbol, followed by a dot, 
+    and at least two characters after the dot.
+*/
+
+SELECT
+    FirstName,
+    LastName,
+    email
+FROM Employees
+WHERE email LIKE '%_@__%.__%';
+
+
 -- Example of sorting data using the ORDER BY clause with single
+-- (e.g. Sort by Salary in descending order)
 SELECT
     FirstName,
     LastName,
     Salary
 FROM Employees
 ORDER BY Salary DESC;
--- Sort by Salary in descending order
+
 
 -- Example of sorting data using the ORDER BY clause with multiple columns
+-- (e.g. Sort by DepartmentID in ascending order, then by LastName in ascending order within each department)
 SELECT
     FirstName,
     LastName,
     DepartmentID
 FROM Employees
 ORDER BY DepartmentID ASC, LastName ASC;
--- Sort by DepartmentID in ascending order, then by LastName in ascending order
+
 
 -- Example of using TOP with ORDER BY to get the top 5 highest paid employees
 SELECT TOP 5
