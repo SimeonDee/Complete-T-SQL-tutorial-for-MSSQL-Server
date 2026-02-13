@@ -249,15 +249,17 @@ ORDER BY SaleDate;
 ------------------------------------
 /*
     - WHERE filters rows before grouping, while HAVING filters groups after aggregation
+    - WHERE is applied before GROUP BY, while HAVING is applied after GROUP BY
     - WHERE cannot use aggregate functions, while HAVING can
     - WHERE is used for row-level filtering, while HAVING is used for group-level filtering
     - You can use both WHERE and HAVING in the same query to filter rows and groups
-    - WHERE is applied before GROUP BY, while HAVING is applied after GROUP BY
 */
 
--- Example of using both WHERE and HAVING in the same query to 
--- filter sales for a specific date and then filter groups with 
--- total sales greater than 2000
+-- Example of using both WHERE and HAVING in the same query 
+/* 
+    - to filter sales for a specific date 
+    - and then filter groups with total sales greater than 2000
+*/
 SELECT
     SaleDate,
     SUM(SalesAmount) AS TotalSales
@@ -266,3 +268,29 @@ WHERE SaleDate >= '2024-01-17' AND SaleDate <= '2024-01-23'
 GROUP BY SaleDate
 HAVING SUM(SalesAmount) > 2000
 ORDER BY SaleDate;
+
+
+-- Example of using both WHERE and HAVING in the same query
+/*
+    - to filter sales for a specific date range
+    - and then filter products with sales count greater than 5
+*/
+SELECT
+    ProductID,
+    COUNT(*) AS SalesCount
+FROM Sales
+WHERE SaleDate >= '2024-01-17' AND SaleDate <= '2024-01-23'
+GROUP BY ProductID
+HAVING COUNT(*) > 5
+ORDER BY ProductID;
+
+/*
+Common Mistakes with GROUP BY and HAVING:
+-----------------------------------------
+    - Forgetting to include non-aggregated columns in the GROUP BY clause
+    - Using WHERE instead of HAVING to filter aggregated results
+    - Using aggregate functions in the WHERE clause instead of HAVING
+    - Not understanding the order of execution (WHERE -> GROUP BY -> HAVING)
+    - Mixing aggregated and non-aggregated columns without proper grouping  
+    - Not handling NULL values correctly in GROUP BY
+*/
