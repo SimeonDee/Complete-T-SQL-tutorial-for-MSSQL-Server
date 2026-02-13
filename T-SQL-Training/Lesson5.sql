@@ -15,13 +15,14 @@ Use Cases:
 - Summary for the entire table
 - Summaries per category or group
 
-    Examples:
-    --------
+Examples:
+--------
     - Calculate total sales per product or customer
     - Count number of orders per region
     - Find average salary per department
     - Identify top-selling products
     - Analyze sales trends over time
+    - Orders per country?
 
 
 GROUP BY:
