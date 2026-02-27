@@ -44,6 +44,12 @@ CREATE TABLE Drugs
     Stock INT DEFAULT 0
 );
 
+-- First, we need to create the DrugsCategories table
+CREATE TABLE DrugsCategories
+(
+    CategoryID INT PRIMARY KEY,
+    CategoryName VARCHAR(50)
+);
 
 /*
 -------------------------------------------------
@@ -101,6 +107,16 @@ VALUES
     (8, 'Atorvastatin', 17.99, 90),
     (9, 'Omeprazole', 11.99, 110),
     (10, 'Simvastatin', 15.99, 70);
+
+
+-- Insert sample data into DrugsCategories table
+INSERT INTO DrugsCategories
+    (CategoryID, CategoryName)
+VALUES
+    (1, 'Pain Relievers'),
+    (2, 'Antibiotics'),
+    (3, 'Antihypertensives');
+
 
 -- Insert records with specific column names exempting columns with default values.
 ----------------------------------------------------------------------------------
@@ -282,6 +298,15 @@ B. ALTER TABLE
         - Modify existing columns (data type, size, etc.)
         - Drop columns from tables
         - Add or drop constraints (e.g., primary key, foreign key, unique, check)
+        - Add Foreign Key constraint
+        - Drop Foreign Key constraint
+        - Add Default constraint
+        - Drop Default constraint
+        - Making a column NOT NULL or NULL
+        - Renaming a column
+        - Adding a Computed Column
+        - Adding an Identity Column
+        
 
     Syntax of ALTER TABLE statement:
     ---------------------------
@@ -347,6 +372,51 @@ DROP CONSTRAINT PK_NewDrugs;
 ALTER TABLE Drugs
 DROP CONSTRAINT CHK_Price;
 
+-- Add Foreign Key constraint to Drugs table referencing DrugsCategories table
+---------------------------------------------------------------------------------
+-- Now, we can add the CategoryID column to the Drugs table and set up the foreign key constraint
+ALTER TABLE Drugs
+ADD CategoryID INT;
+
+ALTER TABLE Drugs
+ADD CONSTRAINT FK_Drugs_Categories FOREIGN KEY (CategoryID) REFERENCES DrugsCategories(CategoryID);
+---------------------------------------------------------------------------------
+
+-- Drop Foreign Key constraint from the Drugs table
+ALTER TABLE Drugs
+DROP CONSTRAINT FK_Drugs_Categories;
+
+-- Add Default constraint to the Drugs table
+ALTER TABLE Drugs
+ADD CONSTRAINT DF_Stock DEFAULT 0 FOR Stock;
+
+-- Drop Default constraint from the Drugs table
+ALTER TABLE Drugs
+DROP CONSTRAINT DF_Stock;
+
+-- Making a column NOT NULL
+ALTER TABLE Drugs
+ALTER COLUMN DrugName VARCHAR(100) NOT NULL;
+
+-- Making a column NULL
+ALTER TABLE Drugs
+ALTER COLUMN DrugName VARCHAR(100) NULL;
+
+-- Adding a Computed Column
+ALTER TABLE Drugs
+ADD PriceWithTax AS Price + Price * 0.10;
+-- Assuming a tax rate of 10%
+
+-- Adding an Identity Column
+ALTER TABLE Drugs
+ADD DrugCode INT IDENTITY(1000, 1);
+/* This will create a new column called DrugCode that 
+starts at 1000 and increments by 1 for each new record inserted into the Drugs table. */
+
+-- Renaming a column
+-- syntax: sp_rename 'table_name.old_column_name', 'new_column_name', 'COLUMN';
+EXEC sp_rename 'Drugs.DrugName', 'Name', 'COLUMN';
+
 -- Delete the Drugs and NewDrugs tables to clean up
 DROP TABLE Drugs;
 DROP TABLE NewDrugs;
@@ -368,10 +438,25 @@ SUMMARY
         - Add or drop constraints (e.g., primary key, foreign key, unique, check)
 
     Key takeaways:
-    - Use INSERT to add new records, UPDATE to modify existing records, DELETE to remove records, and TRUNCATE to quickly remove all records from a table.
-    - Use ALTER TABLE to change the structure of a table by adding, modifying, or dropping columns and constraints.
-    - Always be cautious when using DELETE and TRUNCATE, as they can lead to data loss if not used carefully.
+    - Use INSERT to add new records, UPDATE to modify existing records, DELETE to remove records, 
+        and TRUNCATE to quickly remove all records from a table.
+    - Use ALTER TABLE to change the structure of a table by adding, modifying, 
+        or dropping columns and constraints.
+    - Always be cautious when using DELETE and TRUNCATE, as they can lead to data 
+        loss if not used carefully.
     - Always back up your data before performing any destructive operations.
+
+
+---------------------------
+COMMON ERRORS AND CAUSES    
+---------------------------
+    ---------------------------------------------------
+    | Error               | Cause                     |
+    | ------------------- | ------------------------- |
+    | Cannot drop column  | Column used in constraint |
+    | Cannot alter column | Data type conflict        |
+    | Cannot add NOT NULL | Existing NULL values      |
+    ---------------------------------------------------
 */
 
 -- Next Lesson: JOINS
