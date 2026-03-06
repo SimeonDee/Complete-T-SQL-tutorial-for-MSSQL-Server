@@ -1,6 +1,6 @@
 /*
 -----------------------------------------------------------------
-LESSON 6: T-SQL DATA MANIPULATION AND TABLE STRUCTURE ALTERATION
+LESSON 7: T-SQL DATA MANIPULATION AND TABLE STRUCTURE ALTERATION
 -----------------------------------------------------------------
 In this lesson, we will cover the following topics: 
 
